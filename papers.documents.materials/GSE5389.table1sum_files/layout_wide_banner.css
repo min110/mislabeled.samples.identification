@@ -1,0 +1,4 @@
+/* For sites with wide vertical banners in #extranav - modifies global widths specified in /common/style/layout.css */
+* html #content-journalnav {width:74%;}
+#content-journalnav {width:75%;}
+#extranav {width:22%;}

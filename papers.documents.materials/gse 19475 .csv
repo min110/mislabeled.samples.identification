@@ -1,0 +1,100 @@
+patient #,Chip name / color code,MLL translocation,MLL fusion,age (months),sex,Immunophenotype
+1,1488_4-11,t(4;11),MLL-AF4,4.21,female,pro-B
+2,1227_4-11,t(4;11),MLL-AF4,10.28,female,pro-B
+3,1442_4-11,t(4;11),MLL-AF4,1.94,male,pro-B
+4,VU9815_4-11,t(4;11),MLL-AF4,3.22,male,pro-B
+5,1587_4-11,t(4;11),MLL-AF4,0.62,female,pro-B
+6,1776_4-11,t(4;11),MLL-AF4,0.66,female,pro-B
+7,178_4-11,t(4;11),MLL-AF4,5.59,male,pro-B
+8,1817_4-11,t(4;11),MLL-AF4,0.00,,B-lineage not specified
+9,1966_4-11,t(4;11),MLL-AF4,1.91,female,pro-B
+10,1977_4-11,t(4;11),MLL-AF4,6.41,female,pro-B
+11,1990_4-11,t(4;11),MLL-AF4,6.44,male,pro-B
+12,2582_4-11,t(4;11),MLL-AF4,1.61,female,pro-B
+13,2864_4-11,t(4;11),MLL-AF4,0.79,female,pro-B
+14,300_4-11,t(4;11),MLL-AF4,6.83,female,B-lineage not specified
+15,3218_4-11,t(4;11),MLL-AF4,8.05,male,pre-B
+16,3230_4-11,t(4;11),MLL-AF4,5.91,female,pro-B
+17,3595_4-11,t(4;11),MLL-AF4,3.45,male,pro-B
+18,3686_4-11,t(4;11),MLL-AF4,1.87,female,pro-B
+19,3814_4-11,t(4;11),MLL-AF4,1.61,male,pro-B
+20,385_4-11,t(4;11),MLL-AF4,9.43,female,pro-B
+21,3980_4-11,t(4;11),MLL-AF4,3.09,female,pro-B
+22,3939_4-11,t(4;11),MLL-AF4,1.22,female,pro-B
+23,4669_4-11,t(4;11),MLL-AF4,0.00,female,pro-B
+24,4190_4-11,t(4;11),MLL-AF4,4.37,male,pro-B
+25,4757_4-11,t(4;11),MLL-AF4,0.00,female,pro-B
+26,4773_4-11,t(4;11),MLL-AF4,0.00,female,pro-B
+27,929_4-11,t(4;11),MLL-AF4,3.58,male,pro-B
+28,788v_4-11,t(4;11),MLL-AF4,9.43,female,pro-B
+29,635_4-11,t(4;11),MLL-AF4,2.83,male,pro-B
+30,vr39_11-19,t(11;19),MLL-ENL,7.72,male,pro-B
+31,1037_11-19,t(11;19),MLL-ENL,8.77,female,common
+32,1060_11-19,t(11;19),MLL-ENL,5.72,female,pre-B
+33,1191_11-19,t(11;19),MLL-ENL,9.10,male,pre-B
+34,1225_11-19,t(11;19),MLL-ENL,3.65,female,common
+35,1679_11-19,t(11;19),MLL-ENL,2.30,female,pro-B
+36,1702_11-19,t(11;19),MLL-ENL,11.01,male,pro-B
+37,2009_11-19,t(11;19),MLL-ENL,0.00,female,pro-B
+38,2458_11-19,t(11;19),MLL-ENL,6.01,female,pro-B
+39,2346_11-19,t(11;19),MLL-ENL,3.35,female,pro-B
+40,2146_11-19,t(11;19),MLL-ENL,5.65,female,pro-B
+41,2571_11-19,t(11;19),MLL-ENL,0.00,male,B-lineage not specified
+42,3922_11-19,t(11;19),MLL-ENL,4.14,male,common
+43,3831_11-19,t(11;19),MLL-ENL,2.00,female,pre-B
+44,4483_11-19,t(11;19),MLL-ENL,0.00,male,B-lineage not specified
+45,54_11-19,t(11;19),MLL-ENL,3.09,female,pro-B
+46,474_11-19,t(11;19),MLL-ENL,0.00,male,B-lineage not specified
+47,668_11-19,t(11;19),MLL-ENL,0.03,female,pro-B
+48,618_11-19,t(11;19),MLL-ENL,5.39,male,pro-B
+49,711_11-19,t(11;19),MLL-ENL,10.74,male,pro-B
+50,743_11-19,t(11;19),MLL-ENL,7.79,male,pre-B
+51,888_11-19,t(11;19),MLL-ENL,5.32,female,pro-B
+52,148_9-11,t(9;11),MLL-AF9,0.36,female,B-lineage not specified
+53,1501_9-11,t(9;11),MLL-AF9,10.25,female,pro-B
+54,1656_9-11,t(9;11),MLL-AF9,6.01,female,pre-B
+55,2088_9-11,t(9;11),MLL-AF9,11.66,male,pro-B
+56,3921_9-11,t(9;11),MLL-AF9,4.14,male,B-lineage not specified
+57,4919_9-11,t(9;11),MLL-AF9,0.00,male,B-lineage not specified
+58,620_9-11,t(9;11),MLL-AF9,9.82,female,pre-B
+59,656_9-11,t(9;11),MLL-AF9,4.21,male,pre-B
+60,2249_germline,MLL germline,none,6.34,female,B-lineage not specified
+61,2624_germline,MLL germline,none,11.33,female,pre-B
+62,2807_germline,MLL germline,none,11.07,male,pre-B
+63,3310_germline,MLL germline,none,0.00,male,B-lineage not specified
+64,382_germline,MLL germline,none,0.00,female,B-lineage not specified
+65,4159_germline,MLL germline,none,2.53,male,pre-B
+66,4927_germline,MLL germline,none,0.00,male,B-lineage not specified
+67,512_germline,MLL germline,none,5.49,male,pre-B
+68,560_germline,MLL germline,none,5.98,male,pre-B
+69,1093_germline,MLL germline,none,0.00,male,B-lineage not specified
+70,682_germline,MLL germline,none,5.95,male,pre-B
+71,824_germline,MLL germline,none,9.07,male,pro-B
+72,943_germline,MLL germline,none,7.36,female,pre-B
+73,927_germline,MLL germline,none,8.97,female,pre-B
+74,3663_B-ALL,MLL germline,none,64.56,female,common
+75,3665_B-ALL,MLL germline,none,182.4,male,pre-B
+76,3700_B-ALL,MLL germline,none,44.04,female,pre-B
+77,3708_B-ALL,MLL germline,none,52.32,male,pre-B
+78,3716_B-ALL,MLL germline,none,26.88,male,common
+79,3720_B-ALL,MLL germline,none,25.2,female,common
+80,3738_B-ALL,MLL germline,none,65.76,female,common
+81,3739_B-ALL,MLL germline,none,101.64,male,pre-B
+82,3740_B-ALL,MLL germline,none,13.92,male,pre-B
+83,3744_B-ALL,MLL germline,none,28.2,female,pre-B
+84,3752_B-ALL,MLL germline,none,62.04,male,pre-B
+85,3753_B-ALL,MLL germline,none,184.56,male,pre-B
+86,3754_B-ALL,MLL germline,none,51.84,female,common
+87,3769_B-ALL,MLL germline,none,92.28,male,common
+88,3791_B-ALL,MLL germline,none,52.32,female,common
+89,3799_B-ALL,MLL germline,none,58.32,male,pre-B
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
