@@ -338,7 +338,7 @@ dev.off()
 
 #Heatmap for sample expression
 # rearrange based the gender.
-pdf("./output/heatmap of disagree GPL570 7+2probes.pdf") 
+pdf("./output/heatmap of disagree GPL570 7+2 probes.pdf") 
 
 for (i in datasets) {
     plotemp <- MERGE[,c(Female.probes, Male.probes)]%>% as.matrix
@@ -349,7 +349,7 @@ for (i in datasets) {
                #labRow = XLAB, 
                cexCol = 1, labRow = NULL, srtRow  = NULL,
                keysize = 1.2,  key.title ="", srtCol = 90,
-               colCol = c(rep("red",6),"black"))
+               colCol = c(rep("red",6), rep("black",2)))
     
     legend("topright", cex=0.5,legend = c("male", "female"), 
            col = c("black", "red"),lty= 1, lwd = 10  )
