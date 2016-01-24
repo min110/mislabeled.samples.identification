@@ -1,5 +1,5 @@
 #------------   GPL96 Frame Script  ^_^   -----------
-#------------   Tue Dec 1 2015 2015   -----------
+#------------   2016 JAN  -----------
 
 #setting global path
 projet.PATH <- getwd()
@@ -22,6 +22,8 @@ source( paste0(projet.PATH ,"/Rscripts/customFunction.R"))
 load( paste0(projet.PATH ,"/inputDATA/humanGender-GPL96.txt.RData"))
 GPL96.MetaData <- sampleMetaData
 GPL96.Data  <- dat
+
+
 # -------------  Part 1 CLEANING    ------------
 
 # -------------  Expression Data    ------------

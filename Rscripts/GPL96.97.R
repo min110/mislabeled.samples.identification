@@ -1,5 +1,5 @@
 #------------   GPL96.97 Frame Script  ^_^   -----------
-#------------   Tue Dec  1  2015     -----------
+#------------   2016 JAN    -----------
 
 #setting global path
 projet.PATH <- getwd()

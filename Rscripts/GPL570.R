@@ -1,10 +1,6 @@
 #------------   GPL570 Frame Script  ^_^   -----------
-#------------   Tue Dec 1 2015   -----------
-#change the name of dat and samplemeata
-#change out out to ./output/
-#changed the plots made 
+#------------   2016 JAN   -----------
 
-#add one more gene so that the female probels and male probles are changed 
 # #setting global path
 projet.PATH <- getwd()
 
