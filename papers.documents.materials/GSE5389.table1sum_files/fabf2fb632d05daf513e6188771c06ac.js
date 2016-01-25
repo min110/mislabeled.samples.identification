@@ -1,1 +1,0 @@
-Bootstrapper.bindDOMParsed(function(){var Bootstrapper=window["Bootstrapper"];var ensightenOptions=Bootstrapper.ensightenOptions;function ProcessCall(json){}var script_element=document.createElement("script");script_element.src="http://nature-impact.com:8095/logos/getimage";document.getElementsByTagName("head")[0].appendChild(script_element)},833458,307638);

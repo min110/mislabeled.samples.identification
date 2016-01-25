@@ -318,12 +318,12 @@ for(i in datasets){
             
             annotate("text", x = FcenterX, y = centerY,
                      label =  paste0("MetaFemale (n=", 
-                                     sum(tmplot$G.check == "female")/8,")"), size = 4)+
+                                     sum(tmplot$G.check == "female")/4, ")"), size = 4)+
             annotate("text", x = McenterX, y = centerY,
                      label =  paste0("MetaMale (n=", 
-                                     sum(tmplot$G.check == "male")/8,")"), size = 4)+
+                                     sum(tmplot$G.check == "male")/4,")"), size = 4)+
             
-            annotate("rect", xmin = 0, xmax = sum(tmplot$G.check == "female")/8+ 0.5, 
+            annotate("rect", xmin = 0, xmax = sum(tmplot$G.check == "female")/4+ 0.5, 
                      ymin = -Inf, ymax = Inf, color="black", fill=NA) 
         
     }   
@@ -335,17 +335,18 @@ for(i in datasets){
         
         annotate("text", x = FcenterX, y = centerY,
                  label =  paste0("MetaFemale (n=", 
-                                 sum(tmplot$G.check == "female")/8,")"), size = 4)+
+                                 sum(tmplot$G.check == "female")/4,")"), size = 4)+
         annotate("text", x = McenterX, y = centerY,
                  label =  paste0("MetaMale (n=", 
-                                 sum(tmplot$G.check == "male")/8,")"), size = 4)+
+                                 sum(tmplot$G.check == "male")/4,")"), size = 4)+
         
-        annotate("rect", xmin = 0, xmax = sum(tmplot$G.check == "female")/8+ 0.5, 
+        annotate("rect", xmin = 0, xmax = sum(tmplot$G.check == "female")/4+ 0.5, 
                  ymin = -Inf, ymax = Inf, color="black", fill=NA) 
     
     
     plot(pMATCH)
 }
+
 dev.off()
 
 #---- 
