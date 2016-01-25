@@ -186,10 +186,11 @@ GPL570.DIS.KMvsGEO <- KMEAN[KMEAN$KMvsGEO =="disagree",]
 
 
 #3. method two : mean of XIST + KDM5D instead of Kmean cluster
-KMEAN$medianXIST <- apply(KMEAN[, Female.probes], 1, median)
-KMEAN$medianXIST_KDM <- KMEAN$medianXIST - KMEAN$KDM5D_206700_s_at_137012
-KMEAN$G.medianXIST_KDM <- ifelse(KMEAN$medianXIST_KDM >= 0,"female","male")
-KMEAN$Kmean.Median <- ifelse(KMEAN$G.medianXIST_KDM == KMEAN$G.kmean, KMEAN$G.kmean,"disagree")
+KMEAN$medianFemale <- apply(KMEAN[, Female.probes], 1, median)
+KMEAN$medianMale <- apply(KMEAN[, Male.probes], 1, median)
+KMEAN$medianF-M<- KMEAN$medianFemale - KMEAN$medianMale
+KMEAN$G.medianF-M <- ifelse(KMEAN$medianF-M >= 0,"female","male")
+KMEAN$Kmean.Median <- ifelse(KMEAN$G.medianF-M == KMEAN$G.kmean, KMEAN$G.kmean,"disagree")
 
 # write.csv(KMEAN,"./output/GPL570 all samples before remove KMvsMEDIAN.csv")
 GPL570.DIS.Kmean.Median<- KMEAN[KMEAN$Kmean.Median =="disagree",] #24

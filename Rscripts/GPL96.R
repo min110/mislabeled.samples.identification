@@ -29,34 +29,34 @@ GPL96.Data  <- dat
 # -------------  Expression Data    ------------
 
 #0.Transform dat to the dimention that Metadata was organised with
-GPL96.dat %<>% t() %>% as.data.frame()
+GPL96.Data %<>% t() %>% as.data.frame()
 
 #1.Rename 
-rownames(GPL96.dat) <- sapply(rownames(GPL96.dat),  
+rownames(GPL96.Data) <- sapply(rownames(GPL96.Data),  
                         function(x) strsplit(x,  "\\.")[[1]][2])
 
 #2.Others: sort by row/colName ; NA.rm; get max of each row
-GPL96.dat %<>% clean.EXP() #no samples are removed,drop one dataset
+GPL96.Data %<>% clean.EXP() #no samples are removed,drop one dataset
 
 
 
 # -------------  Metadata      ------------
 #1.Rename
 #1.1 rownames
-rownames(GPL96.Metadata) <- sapply(rownames(GPL96.Metadata),  
+rownames(GPL96.MetaData) <- sapply(rownames(GPL96.MetaData),  
                                    function(x) strsplit(x,  "\\.")[[1]][2])
 
 #1.2 colnames: "G.Gemma"-metagender from Gemma;"G.GEO"-metagender from GEO
-GPL96.Metadata <- rename(GPL96.Metadata, 
+GPL96.MetaData <- rename(GPL96.MetaData, 
                          G.Gemma = sex1,  G.GEO = sex2,  G.check = gender)
 
 
 #2.Sorting by colnames and rownames
-GPL96.Metadata <- GPL96.Metadata[ sort( rownames( GPL96.Metadata ) ), ]
+GPL96.MetaData <- GPL96.MetaData[ sort( rownames( GPL96.MetaData ) ), ]
 
 
 #keep meta data in Dataframe
-GPL96.Metadata %<>% as.matrix() %>% as.data.frame()
+GPL96.MetaData %<>% as.matrix() %>% as.data.frame()
 
 
 
@@ -65,12 +65,12 @@ GPL96.Metadata %<>% as.matrix() %>% as.data.frame()
 #1.Match & MERGE Metadata and EXPdata
 
 #rm Unknown from META--one unknow
-GPL96.Metadata <- GPL96.Metadata[!GPL96.Metadata$G.check == "unknown", ] 
+GPL96.MetaData <- GPL96.MetaData[!GPL96.MetaData$G.check == "unknown", ] 
 
 # subset dat base on meta
-GPL96.dat <- GPL96.dat[rownames(GPL96.Metadata), ] 
+GPL96.Data <- GPL96.Data[rownames(GPL96.MetaData), ] 
 
-MERGE <- merge.ROWname(GPL96.Metadata, GPL96.dat)
+MERGE <- merge.ROWname(GPL96.MetaData, GPL96.Data)
 
 
 # -------------  log2 for Expression Data in MERGE  ------------
@@ -108,18 +108,18 @@ names(MERGE.PLOT) <- sapply(names(MERGE.PLOT), function(x) strsplit(x,"_1")[[1]]
 
 #get corrlation of probsets
 COR <- cor(MERGE.PLOT[,c(grep("XIST",names(MERGE)),
-                         grep("KDM5D",names(MERGE)))],
+                         grep("KDM5D|RPS4Y1",names(MERGE)))],
            method ="spearman")
 
-pdf("GPL96 probesets COR.pdf")
+pdf("./output/GPL96 probesets COR.pdf")
 
 heatmap.2(COR, margins = c(8, 8),
           dendrogram="none", trace="none", na.color="grey",
           col=heat.colors(99), cexRow = 0.71, cexCol = 0.71, key = T,
           keysize = 1.2,  key.title ="", srtCol = 90,
           main = "correlation among probsets",
-          colRow = c(rep("red",3),"black"),
-          colCol = c(rep("red",3),"black")) 
+          colRow = c(rep("red",3),rep("black",2)),
+          colCol = c(rep("red",3),rep("black",2))) 
 
 
 
@@ -136,19 +136,19 @@ dev.off()
 
 datasets <- as.character ( unique (MERGE$dataset) )
 
-XIST.probes <- names(MERGE)[ grep("XIST",  names(MERGE))]
+Female.probes <- names(MERGE)[ grep("XIST",  names(MERGE))]
 
-KDM5D.probe <- names(MERGE)[ grep("KDM5D_", names(MERGE))]
+Male.probes <- names(MERGE)[ grep("KDM5D_|RPS4Y1", names(MERGE))]
 
-temp <- c(XIST.probes, KDM5D.probe)
+temp <- c(Female.probes, Male.probes)
 KMEAN <- MERGE[ , c("dataset", "sampleID", "G.check",  temp)]
 rm(temp)
 
 #2. Each Dataset: get the kGende 
-pdf ("GPL96 kmean Plots.pdf")
+#pdf ("./output/GPL96 kmean Plots.pdf")
 
 for (i in datasets){
-    sub <- KMEAN[KMEAN$dataset == i, c(XIST.probes, "KDM5D_206700_s_at_16058")] 
+    sub <- KMEAN[KMEAN$dataset == i, c(Female.probes, Male.probes)] 
     km <- kmeans(sub, centers=2)
     
     #3. Add Kgender to KMEAN
@@ -166,24 +166,24 @@ for (i in datasets){
    
     
     
-    #4. Plots for KDM5D VS Each XIST
+    }#4. Plots for KDM5D VS Each XIST
     
-    par(mfrow = c(2, 1))
+    #par(mfrow = c(2, 1))
     
-    for(j in 1:2){
-        temp=paste0(i, "-", XIST.probes[j])
-        plot(sub[, "KDM5D_206700_s_at_16058"],  sub[, XIST.probes[j]], 
-             col = km$cluster,  xlab = "KDM5D", ylab = "XIST", main = temp)
-        
-        # match the cluster and centre to fix ramdon assigned 1/2 for color
-        tmp<- match(unique(km$cluster),  rownames(km$centers))
-        points( km$centers[tmp, c(3, j)],  
-                col = unique(km$cluster), pch = 3,  cex = 2)
-        rm(temp)
-        rm(tmp)
-    }
-}
-dev.off()
+    #for(j in 1:2){
+        #temp=paste0(i, "-", Female.probes[j])
+#         plot(sub[, "KDM5D_206700_s_at_16058"],  sub[, Female.probes[j]], 
+#              col = km$cluster,  xlab = "KDM5D", ylab = "XIST", main = temp)
+#         
+#         # match the cluster and centre to fix ramdon assigned 1/2 for color
+#         tmp<- match(unique(km$cluster),  rownames(km$centers))
+#         points( km$centers[tmp, c(3, j)],  
+#                 col = unique(km$cluster), pch = 3,  cex = 2)
+#         rm(temp)
+#         rm(tmp)
+#     }
+
+# dev.off()
 rm(sub)
 
 
@@ -192,32 +192,34 @@ rm(sub)
 #1. Kgender VS GEO Gender 
 KMEAN$KMvsGEO <- ifelse( KMEAN$G.check == KMEAN$G.kmean,
                          KMEAN$G.kmean,  "disagree")
-with (KMEAN, table (G.check,  G.kmean))
+#with (KMEAN, table (G.check,  G.kmean))
 
 #2.SUM
 GPL96.disDS.KMvsGEO <- KMEAN$dataset [KMEAN$KMvsGEO == "disagree"]
 GPL96.disSP.KMvsGEO <- rownames(KMEAN) [KMEAN$KMvsGEO == "disagree"]
 
-length (unique (GPL96.disDS.KMvsGEO))#15/26
-length(GPL96.disSP.KMvsGEO)  #26/1247
+length (unique (GPL96.disDS.KMvsGEO))#15/26--12
+length(GPL96.disSP.KMvsGEO)  #26/1247--21
 
 GPL96.DIS.KMvsGEO <- KMEAN[KMEAN$KMvsGEO =="disagree",]
-write.csv(GPL96.DIS.KMvsGEO, "GPL96 disagreed KMvsMEDIAN before remove.csv")
+#write.csv(GPL96.DIS.KMvsGEO, "./output/GPL96 disagreed KMvsMEDIAN before remove.csv")
 
 
 
 #3. method two : mean of XIST + KDM5D instead of Kmean cluster
-KMEAN$medianXIST <- apply(KMEAN[, XIST.probes], 1, median)
-KMEAN$medianXIST_KDM <- KMEAN$medianXIST - KMEAN$KDM5D_206700_s_at_16058
-KMEAN$G.medianXIST_KDM <- ifelse(KMEAN$medianXIST_KDM >= 0,"female","male")
-KMEAN$Kmean.Median <- ifelse(KMEAN$G.medianXIST_KDM == KMEAN$G.kmean, KMEAN$G.kmean,"disagree")
+KMEAN$medianFemale <- apply(KMEAN[, Female.probes], 1, median)
+KMEAN$medianMale <- apply(KMEAN[, Male.probes], 1, median)
+KMEAN$medianF_M<- KMEAN$medianFemale - KMEAN$medianMale
+KMEAN$G.medianF_M <- ifelse(KMEAN$medianF_M >= 0,"female","male")
+KMEAN$Kmean.Median <- ifelse(KMEAN$G.medianF_M == KMEAN$G.kmean, KMEAN$G.kmean,"disagree")
 
-write.csv(KMEAN,"GPL96 all samples before remove KMvsMEDIAN.csv")
+
+#write.csv(KMEAN,"./output/GPL96 all samples before remove KMvsMEDIAN.csv")
 GPL96.DIS.Kmean.Median<- KMEAN[KMEAN$Kmean.Median =="disagree",] #24
-write.csv(GPL96.DIS.Kmean.Median,"GPL96 disagreed samples KMvsMEDIAN.csv")
+#write.csv(GPL96.DIS.Kmean.Median,"./output/GPL96 disagreed samples KMvsMEDIAN.csv")
 
 GPL96.KMEAN.RM <- KMEAN %>% filter(Kmean.Median !="disagree")
-write.csv(GPL96.KMEAN.RM,"GPL96.KMEAN.RM all samples after remove KMvsMEDIAN.csv")
+#write.csv(GPL96.KMEAN.RM,"./output/GPL96.KMEAN.RM all samples after remove KMvsMEDIAN.csv")
 GPL96.KMEAN.RM$dataset %>% droplevels%>% unique()%>%length
 
 # 3. sum again
@@ -225,7 +227,7 @@ GPL96.KMEAN.RM$dataset %>% droplevels%>% unique()%>%length
 GPL96.disDS.KMvsGEO.Sure<- GPL96.KMEAN.RM$dataset [GPL96.KMEAN.RM$KMvsGEO == "disagree"]
 GPL96.disSP.KMvsGEO.Sure<- GPL96.KMEAN.RM$sampleID [GPL96.KMEAN.RM$KMvsGEO == "disagree"]
 GPL96.DIS.KMvsGEO.Sure <- GPL96.KMEAN.RM[GPL96.KMEAN.RM$KMvsGEO == "disagree",]
-write.csv(GPL96.DIS.KMvsGEO.Sure,"GPL96.DIS.KMvsGEO.Sure disagrees samlpes after the rm .csv")
+write.csv(GPL96.DIS.KMvsGEO.Sure,"./output/GPL96.DIS.KMvsGEO.Sure disagrees samlpes after the rm .csv")
 
 length (unique (GPL96.disDS.KMvsGEO.Sure)) #13/26
 length(GPL96.disSP.KMvsGEO.Sure) #22/1235
@@ -239,13 +241,14 @@ length(GPL96.disSP.KMvsGEO.Sure) #22/1235
 PRBPLOT <- with(GPL96.KMEAN.RM,
                 data.frame(sampleID, dataset, G.check , G.kmean, KMvsGEO, Kmean.Median,
                            probeset = factor(c( rep("XIST",   nrow(GPL96.KMEAN.RM)*2),
-                                                rep("KDM5D",  nrow(GPL96.KMEAN.RM)  ) )),
+                                                rep("KDM5D",  nrow(GPL96.KMEAN.RM)  ),
+                                                rep("RPS4Y1",  nrow(GPL96.KMEAN.RM)))),
                            
                            geneExp = c(XIST_214218_s_at_8687,  XIST_221728_x_at_1196,
-                                       KDM5D_206700_s_at_16058)))
+                                       KDM5D_206700_s_at_16058, RPS4Y1_201909_at_20847)))
 
 
-pdf(" GPL96 highlighted mislabled samples in  EXP striplot for each dataset.pdf")
+pdf("./output/GPL96 highlighted mislabled samples in  EXP striplot for each dataset.pdf")
 
 for(i in datasets){
     tmplot <- PRBPLOT %>% 
@@ -258,8 +261,8 @@ for(i in datasets){
     
     # get the position of annotation rect
     
-    FcenterX = sum(tmplot$G.check == "female")/6
-    McenterX = sum(tmplot$G.check == "female")/3 + sum(tmplot$G.check == "male")/6 + 0.5
+    FcenterX = sum(tmplot$G.check == "female")/8
+    McenterX = sum(tmplot$G.check == "female")/4 + sum(tmplot$G.check == "male")/8 + 0.5
     
     centerY = max(tmplot$geneExp) + 1
     
@@ -274,6 +277,15 @@ for(i in datasets){
     
     #
     MM <- which(tmplot$KMvsGEO[!duplicated(tmplot$sampleID)] == "disagree")
+    MMfront <- MM - 0.5 # without the first mismatchd samples
+    MMafter <- MM + 0.5 # without the last mismatched samples
+    
+    #dot size 
+    
+    if( length(unique(tmplot$sampleID))< 100){DotSize = 1.5}
+    if( length(unique(tmplot$sampleID)) > 100 & length(unique(tmplot$sampleID))< 200 ){DotSize = 0.3}
+    if( length(unique(tmplot$sampleID)) >= 200){DotSize = 0.05}
+    
     
     pMATCH = tmplot %>% ggplot(aes(y = geneExp, x = sampleID)) +
         geom_point(aes(color = probeset)) +
@@ -281,20 +293,20 @@ for(i in datasets){
         theme(panel.background = element_rect(colour = "black"),
               axis.text.x = element_text(size = 8))+
         labs(title = i, x = "Samples", y = "Expression (log2)")+
-        scale_colour_manual(labels = c('KDM5D', 'XIST'),
-                            values = c('black','red')) +
+        scale_colour_manual(labels = c('KDM5D', 'RPS4Y1','XIST'),
+                            values = c('black','black','red')) +
         
         annotate("rect", xmin=0, xmax=Inf, ymin=max(tmplot$geneExp) + 0.5, 
                  ymax=Inf, color="black", fill="white") +
         
         annotate("text", x = FcenterX, y = centerY,
                  label =  paste0("MetaFemale (n=", 
-                                 sum(tmplot$G.check == "female")/3,")"), size = 4)+
+                                 sum(tmplot$G.check == "female")/4,")"), size = 4)+
         annotate("text", x = McenterX, y = centerY,
                  label =  paste0("MetaMale (n=", 
-                                 sum(tmplot$G.check == "male")/3,")"), size = 4)+
+                                 sum(tmplot$G.check == "male")/4,")"), size = 4)+
         
-        annotate("rect", xmin = 0, xmax = sum(tmplot$G.check == "female")/3+ 0.5, 
+        annotate("rect", xmin = 0, xmax = sum(tmplot$G.check == "female")/4+ 0.5, 
                  ymin = -Inf, ymax = Inf, color="black", fill=NA) +
         
         scale_x_discrete(breaks = unique(tmplot$sampleID), labels= KmeanLable)
@@ -314,9 +326,9 @@ dev.off()
 #Heatmap for sample expression
 # rearrange based the gender.
 
-pdf("heatmap of disagree GPL96 2+1probes.pdf") 
+pdf("./output/heatmap of disagree GPL96 2+2 probes.pdf") 
 for (i in datasets) {
-    plotemp <- MERGE[,c(XIST.probes, KDM5D.probe)]%>% as.matrix
+    plotemp <- MERGE[,c(Female.probes, Male.probes)]%>% as.matrix
     heatmap.2 (plotemp, margins = c(4, 4), 
                las=1, main = i, 
                dendrogram="none", trace="none", 
@@ -324,7 +336,7 @@ for (i in datasets) {
                #labRow = XLAB, 
                cexCol = 1, labRow = NULL, srtRow  = NULL,
                keysize = 1.2,  key.title ="", srtCol = 90,
-               colCol = c(rep("red",6),"black"))
+               #colCol = c(rep("red",6), rep("black",2)))
     
     legend("topright", cex=0.5,legend = c("male", "female"), 
            col = c("black", "red"),lty= 1, lwd = 10  )
