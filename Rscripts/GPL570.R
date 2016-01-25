@@ -99,13 +99,13 @@ rm( temp )
 # -------------  Part 2 PLOTTING :initial visualization -------------
 
 
-#fix the probe names
+#simplify the probe names
 MERGE.PLOT <- MERGE
 names(MERGE.PLOT) <- sapply(names(MERGE.PLOT), function(x) strsplit(x,"_1")[[1]][1])
 
 #get corrlation of probsets
 COR <- cor(MERGE.PLOT[,c(grep("XIST",names(MERGE)),
-                         grep("KDM5D|RPS4Y1",names(MERGE)))],
+                         grep("KDM5D_|RPS4Y1",names(MERGE)))],
            method ="spearman")
 
 pdf("./output/GPL570 probesets COR.pdf")
@@ -142,7 +142,7 @@ temp <- c(Female.probes, Male.probes)
 KMEAN <- MERGE[ , c("dataset", "sampleID", "G.check",  temp)]
 rm(temp)
 
-#2. Each Dataset: get the kGender 
+#2. Each Dataset: get the kmean Gender 
 
 for (i in datasets){
     sub <- KMEAN[ KMEAN$dataset == i, c(Female.probes, Male.probes)] 
@@ -169,7 +169,7 @@ rm(sub)
 
 #-------------- Make Comparision Between Meta and Genetic Gender  --------------
 
-#1. Kgender VS GEO Gender 
+#1. Kmean gender VS GEO Gender 
 KMEAN$KMvsGEO <- ifelse( KMEAN$G.check == KMEAN$G.kmean,
                          KMEAN$G.kmean,  "disagree")
 
@@ -178,37 +178,38 @@ GPL570.disDS.KMvsGEO <- KMEAN$dataset [KMEAN$KMvsGEO == "disagree"]
 GPL570.disSP.KMvsGEO <- rownames(KMEAN) [KMEAN$KMvsGEO == "disagree"]
 
 length (unique (GPL570.disDS.KMvsGEO))#22/40
-length(GPL570.disSP.KMvsGEO)  
+length(GPL570.disSP.KMvsGEO)  #73/2688
 
 GPL570.DIS.KMvsGEO <- KMEAN[KMEAN$KMvsGEO =="disagree",]
 # write.csv(GPL570.DIS.KMvsGEO, "./output/GPL570 disagreed KMvsMEDIAN before remove.csv")
 
 
 
-#3. method two : mean of XIST + KDM5D instead of Kmean cluster
+#3. method two : median of XIST Vs median of KDM5D and RPS4Y1 
 KMEAN$medianFemale <- apply(KMEAN[, Female.probes], 1, median)
 KMEAN$medianMale <- apply(KMEAN[, Male.probes], 1, median)
-KMEAN$medianF-M<- KMEAN$medianFemale - KMEAN$medianMale
-KMEAN$G.medianF-M <- ifelse(KMEAN$medianF-M >= 0,"female","male")
-KMEAN$Kmean.Median <- ifelse(KMEAN$G.medianF-M == KMEAN$G.kmean, KMEAN$G.kmean,"disagree")
+KMEAN$medianF_M<- KMEAN$medianFemale - KMEAN$medianMale
+KMEAN$G.medianF_M <- ifelse(KMEAN$medianF_M >= 0,"female","male")
+KMEAN$Kmean.Median <- ifelse(KMEAN$G.medianF_M == KMEAN$G.kmean, KMEAN$G.kmean,"disagree")
 
 # write.csv(KMEAN,"./output/GPL570 all samples before remove KMvsMEDIAN.csv")
-GPL570.DIS.Kmean.Median<- KMEAN[KMEAN$Kmean.Median =="disagree",] #24
+GPL570.DIS.Kmean.Median<- KMEAN[KMEAN$Kmean.Median =="disagree",] #16 (24 for one male gene)
 # write.csv(GPL570.DIS.Kmean.Median,"./output/GPL570 disagreed samples KMvsMEDIAN.csv")
 
 GPL570.KMEAN.RM <- KMEAN %>% filter(Kmean.Median !="disagree")
-#write.csv(GPL570.KMEAN.RM,"./output/GPL570.KMEAN.RM all samples after remove KMvsMEDIAN.csv")
+write.csv(GPL570.KMEAN.RM,"./output/GPL570.KMEAN.RM all samples after remove KMvsMEDIAN.csv")
 GPL570.KMEAN.RM$dataset %>% droplevels%>% unique()%>%length
 
 # 3. sum again
 
 GPL570.disDS.KMvsGEO.Sure<- GPL570.KMEAN.RM$dataset [GPL570.KMEAN.RM$KMvsGEO == "disagree"]
 GPL570.disSP.KMvsGEO.Sure<- GPL570.KMEAN.RM$sampleID [GPL570.KMEAN.RM$KMvsGEO == "disagree"]
+
 GPL570.DIS.KMvsGEO.Sure <- GPL570.KMEAN.RM[GPL570.KMEAN.RM$KMvsGEO == "disagree",]
 write.csv(GPL570.DIS.KMvsGEO.Sure,"./output/GPL570.DIS.KMvsGEO.Sure disagrees samlpes after the rm .csv")
 
-length (unique (GPL570.disDS.KMvsGEO.Sure)) #18/40
-length(GPL570.disSP.KMvsGEO.Sure) #57/2688
+length (unique (GPL570.disDS.KMvsGEO.Sure)) #18/40--21/40
+length(GPL570.disSP.KMvsGEO.Sure) #57/2688---64/2672
 
 #-------------- OUTPUT   ---------------
 
@@ -269,11 +270,14 @@ for(i in datasets){
     
     
     pMATCH = tmplot %>% ggplot(aes(y = geneExp, x = sampleID)) + 
-        geom_point(aes(color = probeset),size = DotSize) +
+        geom_point(aes(color = probeset, shape = probeset),size = DotSize) +
         theme_classic()+
         theme(panel.background = element_rect(colour = "black"),
               axis.text.x = element_text(size = 4)) +
         labs(title = i, x = "Samples", y = "Expression (log2)") +
+        
+        scale_shape_manual(labels = c('KDM5D', 'RPS4Y1','XIST'),
+                           values=c(20,4,20)) +
         scale_colour_manual(labels = c('KDM5D', 'RPS4Y1','XIST'),
                             values = c('black','black','red')) +
         

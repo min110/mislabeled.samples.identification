@@ -133,13 +133,13 @@ KMEAN <- MERGE[ , c("dataset", "sampleID", "G.check",  temp)]
 rm(temp)
 
 
-#2. Each Dataset: get the kGender 
+#2. Each Dataset: get the kmean Gender 
 
 for (i in datasets){
     sub <- KMEAN[ KMEAN$dataset == i, c(Female.probes, Male.probes)] 
     km <- kmeans(sub, centers=2)
     
-    #3. Add Kgender to KMEAN
+    #3. Add Kmean gender to KMEAN
     temp <- km$cluster
     Ptemp <- km$centers
     if ( Ptemp[1, 1] > Ptemp[2, 1]){
@@ -158,7 +158,7 @@ for (i in datasets){
    
 #-------------- Make Comparision Between Meta and Genetic Gender  --------------
 
-#1. Kgender VS GEO Gender 
+#1. Kmean gender VS GEO Gender 
 KMEAN$KMvsGEO <- ifelse( KMEAN$G.check == KMEAN$G.kmean,
                          KMEAN$G.kmean,  "disagree")
 with (KMEAN, table (G.check,  G.kmean))
@@ -175,7 +175,7 @@ GPL96.97.DIS.KMvsGEO <- KMEAN[KMEAN$KMvsGEO =="disagree",]
 
 
 
-#3. method two : mean of XIST + KDM5D instead of Kmean cluster
+#3. method two : median of XIST Vs median of KDM5D and RPS4Y1 
 KMEAN$medianFemale <- apply(KMEAN[, Female.probes], 1, median)
 KMEAN$medianMale <- apply(KMEAN[, Male.probes], 1, median)
 KMEAN$medianF_M <- KMEAN$medianFemale - KMEAN$medianMale
@@ -187,7 +187,7 @@ GPL96.97.DIS.Kmean.Median<- KMEAN[KMEAN$Kmean.Median =="disagree",] #24
 #write.csv(GPL96.97.DIS.Kmean.Median,"./output/GPL96.97 disagreed samples KMvsMEDIAN.csv")
 
 GPL96.97.KMEAN.RM <- KMEAN %>% filter(Kmean.Median !="disagree")
-#write.csv(GPL96.97.KMEAN.RM,"./output/GPL96.97.KMEAN.RM all samples after remove KMvsMEDIAN.csv")
+write.csv(GPL96.97.KMEAN.RM,"./output/GPL96.97.KMEAN.RM all samples after remove KMvsMEDIAN.csv")
 GPL96.97.KMEAN.RM$dataset %>% droplevels%>% unique()%>%length
 
 # 3. sum again
