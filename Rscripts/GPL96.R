@@ -287,35 +287,62 @@ for(i in datasets){
     if( length(unique(tmplot$sampleID)) >= 200){DotSize = 0.05}
     
     
-    pMATCH = tmplot %>% ggplot(aes(y = geneExp, x = sampleID)) +
-        geom_point(aes(color = probeset)) +
+    pMATCH = tmplot %>% ggplot(aes(y = geneExp, x = sampleID)) + 
+        geom_point(aes(color = probeset),size = DotSize) +
         theme_classic()+
         theme(panel.background = element_rect(colour = "black"),
-              axis.text.x = element_text(size = 8))+
-        labs(title = i, x = "Samples", y = "Expression (log2)")+
+              axis.text.x = element_text(size = 4)) +
+        labs(title = i, x = "Samples", y = "Expression (log2)") +
         scale_colour_manual(labels = c('KDM5D', 'RPS4Y1','XIST'),
                             values = c('black','black','red')) +
         
-        annotate("rect", xmin=0, xmax=Inf, ymin=max(tmplot$geneExp) + 0.5, 
-                 ymax=Inf, color="black", fill="white") +
+        scale_x_discrete(breaks = unique(tmplot$sampleID), labels= KmeanLable)+
+        theme(panel.margin = unit(0, "lines"))
+    
+    if(length(MM)!=0){
+        pMATCH = pMATCH +
+            annotate("rect", xmin = c(0, MMafter),
+                     xmax = c(MMfront, length(unique(tmplot$sampleID))+ 0.3), 
+                     ymin = rep(-Inf, length(MM) + 1), 
+                     ymax = rep(max(tmplot$geneExp) + 0.5, length(MM) + 1),
+                     alpha = 0.6, color = NA, fill = "white") + 
+            
+            annotate("rect", xmin = MMfront, xmax = MMafter, 
+                     ymin = rep(-Inf, length(MM)), 
+                     ymax = rep(max(tmplot$geneExp) + 0.5,
+                                length(MM)), alpha = 0.2) +
+            
+            annotate("rect", xmin=0, xmax=Inf, 
+                     ymin=max(tmplot$geneExp) + 0.5, ymax=Inf, 
+                     color = "black", fill = "white") +
+            
+            annotate("text", x = FcenterX, y = centerY,
+                     label =  paste0("MetaFemale (n=", 
+                                     sum(tmplot$G.check == "female")/8,")"), size = 4)+
+            annotate("text", x = McenterX, y = centerY,
+                     label =  paste0("MetaMale (n=", 
+                                     sum(tmplot$G.check == "male")/8,")"), size = 4)+
+            
+            annotate("rect", xmin = 0, xmax = sum(tmplot$G.check == "female")/8+ 0.5, 
+                     ymin = -Inf, ymax = Inf, color="black", fill=NA) 
+        
+    }   
+    
+    #add other rects
+    pMATCH = pMATCH + annotate("rect", xmin=0, xmax=Inf, 
+                               ymin=max(tmplot$geneExp) + 0.5, ymax=Inf, 
+                               color="black", fill="white") +
         
         annotate("text", x = FcenterX, y = centerY,
                  label =  paste0("MetaFemale (n=", 
-                                 sum(tmplot$G.check == "female")/4,")"), size = 4)+
+                                 sum(tmplot$G.check == "female")/8,")"), size = 4)+
         annotate("text", x = McenterX, y = centerY,
                  label =  paste0("MetaMale (n=", 
-                                 sum(tmplot$G.check == "male")/4,")"), size = 4)+
+                                 sum(tmplot$G.check == "male")/8,")"), size = 4)+
         
-        annotate("rect", xmin = 0, xmax = sum(tmplot$G.check == "female")/4+ 0.5, 
-                 ymin = -Inf, ymax = Inf, color="black", fill=NA) +
-        
-        scale_x_discrete(breaks = unique(tmplot$sampleID), labels= KmeanLable)
+        annotate("rect", xmin = 0, xmax = sum(tmplot$G.check == "female")/8+ 0.5, 
+                 ymin = -Inf, ymax = Inf, color="black", fill=NA) 
     
-    if(length(MM)!=0){
-        pMATCH = pMATCH +  annotate("rect", xmin = MM-0.5, xmax = MM+0.5, 
-                                    ymin = rep(-Inf, length(MM)), ymax = rep(max(tmplot$geneExp) + 0.5, 
-                                                                             length(MM)), alpha = .2)
-    }
     
     plot(pMATCH)
 }
