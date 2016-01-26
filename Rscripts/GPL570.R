@@ -277,7 +277,7 @@ for(i in datasets){
         labs(title = i, x = "Samples(Predicted Gender)", y = "Expression (log2)") +
         
         scale_shape_manual(labels = c('KDM5D', 'RPS4Y1','XIST'),
-                           values=c(20,2,20)) +
+                           values=c(20,1,20)) +
         scale_colour_manual(labels = c('KDM5D', 'RPS4Y1','XIST'),
                             values = c('black','black','red')) +
         
@@ -337,24 +337,24 @@ dev.off()
 
 #---- 
 
-#Heatmap for sample expression
-# rearrange based the gender.
-pdf("./output/heatmap of disagree GPL570 7+2 probes.pdf") 
-
-for (i in datasets) {
-    plotemp <- MERGE[,c(Female.probes, Male.probes)]%>% as.matrix
-    heatmap.2 (plotemp, margins = c(4, 4), 
-               las=1, main = i, 
-               dendrogram="none", trace="none", 
-               col=heat.colors(44), 
-               #labRow = XLAB, 
-               cexCol = 1, labRow = NULL, srtRow  = NULL,
-               keysize = 1.2,  key.title ="", srtCol = 90,
-               colCol = c(rep("red",6), rep("black",2)))
-    
-    legend("topright", cex=0.5,legend = c("male", "female"), 
-           col = c("black", "red"),lty= 1, lwd = 10  )
-}
-
-dev.off()
-
+# #Heatmap for sample expression
+# # rearrange based the gender.
+# pdf("./output/heatmap of disagree GPL570 7+2 probes.pdf") 
+# 
+# for (i in datasets) {
+#     plotemp <- MERGE[,c(Female.probes, Male.probes)]%>% as.matrix
+#     heatmap.2 (plotemp, margins = c(4, 4), 
+#                las=1, main = i, 
+#                dendrogram="none", trace="none", 
+#                col=heat.colors(44), 
+#                #labRow = XLAB, 
+#                cexCol = 1, labRow = NULL, srtRow  = NULL,
+#                keysize = 1.2,  key.title ="", srtCol = 90,
+#                colCol = c(rep("red",6), rep("black",2)))
+#     
+#     legend("topright", cex=0.5,legend = c("male", "female"), 
+#            col = c("black", "red"),lty= 1, lwd = 10  )
+# }
+# 
+# dev.off()
+# 
