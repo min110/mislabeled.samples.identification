@@ -260,7 +260,7 @@ for(i in datasets){
         theme_classic()+
         theme(panel.background = element_rect(colour = "black"),
               axis.text.x = element_text(size = 4)) +
-        labs(title = i, x = "Samples", y = "Expression (log2)") +
+        labs(title = i, x = "Samples(Predicted Gender)", y = "Expression (log2)") +
         scale_colour_manual(labels = c('KDM5D', 'RPS4Y1','XIST'),
                             values = c('black','black','red')) +
         scale_shape_manual(labels = c('KDM5D', 'RPS4Y1','XIST'),

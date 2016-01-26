@@ -210,7 +210,7 @@ GPL96.disSP.KMvsGEO.Sure<- GPL96.KMEAN.RM$sampleID [GPL96.KMEAN.RM$KMvsGEO == "d
 GPL96.DIS.KMvsGEO.Sure <- GPL96.KMEAN.RM[GPL96.KMEAN.RM$KMvsGEO == "disagree",]
 write.csv(GPL96.DIS.KMvsGEO.Sure,"./output/GPL96.DIS.KMvsGEO.Sure disagrees samlpes after the rm .csv")
 
-#length (unique (GPL96.disDS.KMvsGEO.Sure)) #13/26--11
+#length (unique (GPL96.disDS.KMvsGEO.Sure)) #13/26--11/26
 #length(GPL96.disSP.KMvsGEO.Sure) #22/1235--19
 
 #-------------- OUTPUT   ---------------
@@ -273,12 +273,12 @@ for(i in datasets){
         theme_classic()+
         theme(panel.background = element_rect(colour = "black"),
               axis.text.x = element_text(size = 4)) +
-        labs(title = i, x = "Samples", y = "Expression (log2)") +
+        labs(title = i, x = "Samples(Predicted Gender)", y = "Expression (log2)") +
         
         scale_colour_manual(labels = c('KDM5D', 'RPS4Y1','XIST'),
                             values = c('black','black','red')) +
         scale_shape_manual(labels = c('KDM5D', 'RPS4Y1','XIST'),
-                           values=c(20,4,20)) +
+                           values=c(20,1,20)) +
         
         scale_x_discrete(breaks = unique(tmplot$sampleID), labels= KmeanLable)+
         theme(panel.margin = unit(0, "lines"))
