@@ -264,7 +264,7 @@ for(i in datasets){
         scale_colour_manual(labels = c('KDM5D', 'RPS4Y1','XIST'),
                             values = c('black','black','red')) +
         scale_shape_manual(labels = c('KDM5D', 'RPS4Y1','XIST'),
-                           values=c(20,4,20)) +
+                           values=c(20,1,20)) +
         scale_x_discrete(breaks = unique(tmplot$sampleID), labels= KmeanLable)+
         theme(panel.margin = unit(0, "lines"))
     
