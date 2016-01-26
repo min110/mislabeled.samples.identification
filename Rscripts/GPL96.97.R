@@ -50,9 +50,6 @@ GPL96.97.MetaData <- rename(GPL96.97.MetaData,
 GPL96.97.MetaData <- GPL96.97.MetaData[ sort( rownames( GPL96.97.MetaData ) ), ]
 
 
-#GPL96.97.MetaData$G.check <- ifelse( GPL96.97.MetaData$G.Gemma == GPL96.97.MetaData$G.GEO, 
-                                  #as.character( GPL96.97.MetaData$G.Gemma ), "mismatch")
-
 #keep meta data in Dataframe
 GPL96.97.MetaData %<>% as.matrix() %>% as.data.frame()
 
@@ -87,12 +84,12 @@ rm(MIN)
 rm(i)
 
 # -------------  Part 2 PLOTTING :initial visualization^_^  -------------
-#fix the probe names
-# why names with space
+#simplify the probe names
+
 names(MERGE) <- gsub(" ","",names(MERGE)) 
 
 MERGE.PLOT <- MERGE
-names(MERGE.PLOT) <- sapply(names(MERGE.PLOT), function(x) strsplit(x,"_1")[[1]][1])
+names(MERGE.PLOT) <- sapply(names(MERGE.PLOT), function(x) strsplit(x,"_1|_2")[[1]][1])
 
 #get corrlation of probsets
 COR <- cor(MERGE.PLOT[,c(grep("XIST",names(MERGE)),
@@ -197,13 +194,8 @@ GPL96.97.disSP.KMvsGEO.Sure<- GPL96.97.KMEAN.RM$sampleID [GPL96.97.KMEAN.RM$KMvs
 GPL96.97.DIS.KMvsGEO.Sure <- GPL96.97.KMEAN.RM[GPL96.97.KMEAN.RM$KMvsGEO == "disagree",]
 write.csv(GPL96.97.DIS.KMvsGEO.Sure,"./output/GPL96.97.DIS.KMvsGEO.Sure disagrees samlpes after the rm .csv")
 
-length (unique (GPL96.97.disDS.KMvsGEO.Sure)) #0
-length(GPL96.97.disSP.KMvsGEO.Sure) #0
-
-#-------------- OUTPUT   ---------------
-
-
-
+#length (unique (GPL96.97.disDS.KMvsGEO.Sure)) #0
+#length(GPL96.97.disSP.KMvsGEO.Sure) #0
 
 #-------------- OUTPUT   ---------------
 
@@ -264,14 +256,15 @@ for(i in datasets){
     
     
     pMATCH = tmplot %>% ggplot(aes(y = geneExp, x = sampleID)) + 
-        geom_point(aes(color = probeset),size = DotSize) +
+        geom_point(aes(color = probeset,shape = probeset),size = DotSize) +
         theme_classic()+
         theme(panel.background = element_rect(colour = "black"),
               axis.text.x = element_text(size = 4)) +
         labs(title = i, x = "Samples", y = "Expression (log2)") +
         scale_colour_manual(labels = c('KDM5D', 'RPS4Y1','XIST'),
                             values = c('black','black','red')) +
-        
+        scale_shape_manual(labels = c('KDM5D', 'RPS4Y1','XIST'),
+                           values=c(20,4,20)) +
         scale_x_discrete(breaks = unique(tmplot$sampleID), labels= KmeanLable)+
         theme(panel.margin = unit(0, "lines"))
     
@@ -329,24 +322,24 @@ dev.off()
 #Heatmap for sample expression
 # rearrange based the gender.
 
-pdf("./output/heatmap of disagree GPL96.97 7+1probes.pdf") 
-for (i in datasets) {
-    plotemp <- MERGE[,c(Female.probes, Male.probes)]%>% as.matrix
-    heatmap.2 (plotemp, margins = c(4, 4), 
-               las=1, main = i, 
-               dendrogram="none", trace="none", 
-               col=heat.colors(44), 
-               #labRow = XLAB, 
-               cexCol = 1, labRow = NULL, srtRow  = NULL,
-               keysize = 1.2,  key.title ="", srtCol = 90,
-               colCol = c(rep("red",6), rep("black",2)))
-    
-    legend("topright", cex=0.5,legend = c("male", "female"), 
-           col = c("black", "red"),lty= 1, lwd = 10  )
-}
-
-dev.off()
-
+# pdf("./output/heatmap of disagree GPL96.97 7+1probes.pdf") 
+# for (i in datasets) {
+#     plotemp <- MERGE[,c(Female.probes, Male.probes)]%>% as.matrix
+#     heatmap.2 (plotemp, margins = c(4, 4), 
+#                las=1, main = i, 
+#                dendrogram="none", trace="none", 
+#                col=heat.colors(44), 
+#                #labRow = XLAB, 
+#                cexCol = 1, labRow = NULL, srtRow  = NULL,
+#                keysize = 1.2,  key.title ="", srtCol = 90,
+#                colCol = c(rep("red",6), rep("black",2)))
+#     
+#     legend("topright", cex=0.5,legend = c("male", "female"), 
+#            col = c("black", "red"),lty= 1, lwd = 10  )
+# }
+# 
+# dev.off()
+# 
 
 
 

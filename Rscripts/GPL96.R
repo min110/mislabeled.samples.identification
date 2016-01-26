@@ -99,8 +99,8 @@ rm(Log.DS)
 rm(MIN)
 
 # -------------  Part 2 PLOTTING:initial visualization ^_^  -------------
-#fix the probe names
-# why names with space
+#simplify the probe names
+
 names(MERGE) <- gsub(" ","",names(MERGE)) 
 
 MERGE.PLOT <- MERGE
@@ -118,8 +118,8 @@ heatmap.2(COR, margins = c(8, 8),
           col=heat.colors(99), cexRow = 0.71, cexCol = 0.71, key = T,
           keysize = 1.2,  key.title ="", srtCol = 90,
           main = "correlation among probsets",
-          colRow = c(rep("red",3),rep("black",2)),
-          colCol = c(rep("red",3),rep("black",2))) 
+          colRow = c(rep("red",2),rep("black",2)),
+          colCol = c(rep("red",2),rep("black",2))) 
 
 
 
@@ -144,8 +144,7 @@ temp <- c(Female.probes, Male.probes)
 KMEAN <- MERGE[ , c("dataset", "sampleID", "G.check",  temp)]
 rm(temp)
 
-#2. Each Dataset: get the kmean Gende 
-#pdf ("./output/GPL96 kmean Plots.pdf")
+#2. Each Dataset: get the kmean Gender
 
 for (i in datasets){
     sub <- KMEAN[KMEAN$dataset == i, c(Female.probes, Male.probes)] 
@@ -164,26 +163,8 @@ for (i in datasets){
     rm(temp)
     rm(Ptemp)
    
-    
-    
-    }#4. Plots for KDM5D VS Each XIST
-    
-    #par(mfrow = c(2, 1))
-    
-    #for(j in 1:2){
-        #temp=paste0(i, "-", Female.probes[j])
-#         plot(sub[, "KDM5D_206700_s_at_16058"],  sub[, Female.probes[j]], 
-#              col = km$cluster,  xlab = "KDM5D", ylab = "XIST", main = temp)
-#         
-#         # match the cluster and centre to fix ramdon assigned 1/2 for color
-#         tmp<- match(unique(km$cluster),  rownames(km$centers))
-#         points( km$centers[tmp, c(3, j)],  
-#                 col = unique(km$cluster), pch = 3,  cex = 2)
-#         rm(temp)
-#         rm(tmp)
-#     }
+ }
 
-# dev.off()
 rm(sub)
 
 
@@ -192,7 +173,7 @@ rm(sub)
 #1. Kmean gender VS GEO Gender 
 KMEAN$KMvsGEO <- ifelse( KMEAN$G.check == KMEAN$G.kmean,
                          KMEAN$G.kmean,  "disagree")
-#with (KMEAN, table (G.check,  G.kmean))
+# with (KMEAN, table (G.check,  G.kmean))
 
 #2.SUM
 GPL96.disDS.KMvsGEO <- KMEAN$dataset [KMEAN$KMvsGEO == "disagree"]
@@ -220,7 +201,7 @@ GPL96.DIS.Kmean.Median<- KMEAN[KMEAN$Kmean.Median =="disagree",] #24
 
 GPL96.KMEAN.RM <- KMEAN %>% filter(Kmean.Median !="disagree")
 write.csv(GPL96.KMEAN.RM,"./output/GPL96.KMEAN.RM all samples after remove KMvsMEDIAN.csv")
-GPL96.KMEAN.RM$dataset %>% droplevels%>% unique()%>%length
+#GPL96.KMEAN.RM$dataset %>% droplevels%>% unique()%>%length
 
 # 3. sum again
 
@@ -229,8 +210,8 @@ GPL96.disSP.KMvsGEO.Sure<- GPL96.KMEAN.RM$sampleID [GPL96.KMEAN.RM$KMvsGEO == "d
 GPL96.DIS.KMvsGEO.Sure <- GPL96.KMEAN.RM[GPL96.KMEAN.RM$KMvsGEO == "disagree",]
 write.csv(GPL96.DIS.KMvsGEO.Sure,"./output/GPL96.DIS.KMvsGEO.Sure disagrees samlpes after the rm .csv")
 
-length (unique (GPL96.disDS.KMvsGEO.Sure)) #13/26
-length(GPL96.disSP.KMvsGEO.Sure) #22/1235
+#length (unique (GPL96.disDS.KMvsGEO.Sure)) #13/26--11
+#length(GPL96.disSP.KMvsGEO.Sure) #22/1235--19
 
 #-------------- OUTPUT   ---------------
 
@@ -288,13 +269,16 @@ for(i in datasets){
     
     
     pMATCH = tmplot %>% ggplot(aes(y = geneExp, x = sampleID)) + 
-        geom_point(aes(color = probeset),size = DotSize) +
+        geom_point(aes(color = probeset,shape = probeset),size = DotSize) +
         theme_classic()+
         theme(panel.background = element_rect(colour = "black"),
               axis.text.x = element_text(size = 4)) +
         labs(title = i, x = "Samples", y = "Expression (log2)") +
+        
         scale_colour_manual(labels = c('KDM5D', 'RPS4Y1','XIST'),
                             values = c('black','black','red')) +
+        scale_shape_manual(labels = c('KDM5D', 'RPS4Y1','XIST'),
+                           values=c(20,4,20)) +
         
         scale_x_discrete(breaks = unique(tmplot$sampleID), labels= KmeanLable)+
         theme(panel.margin = unit(0, "lines"))
@@ -354,23 +338,23 @@ dev.off()
 #Heatmap for sample expression
 # rearrange based the gender.
 
-pdf("./output/heatmap of disagree GPL96 2+2 probes.pdf") 
-for (i in datasets) {
-    plotemp <- MERGE[,c(Female.probes, Male.probes)]%>% as.matrix
-    heatmap.2 (plotemp, margins = c(4, 4), 
-               las=1, main = i, 
-               dendrogram="none", trace="none", 
-               col=heat.colors(44), 
-               #labRow = XLAB, 
-               cexCol = 1, labRow = NULL, srtRow  = NULL,
-               keysize = 1.2,  key.title ="", srtCol = 90,
-               #colCol = c(rep("red",6), rep("black",2)))
-    
-    legend("topright", cex=0.5,legend = c("male", "female"), 
-           col = c("black", "red"),lty= 1, lwd = 10  )
-}
-
-dev.off()
-
-
-
+# pdf("./output/heatmap of disagree GPL96 2+2 probes.pdf") 
+# for (i in datasets) {
+#     plotemp <- MERGE[,c(Female.probes, Male.probes)]%>% as.matrix
+#     heatmap.2 (plotemp, margins = c(4, 4), 
+#                las=1, main = i, 
+#                dendrogram="none", trace="none", 
+#                col=heat.colors(44), 
+#                #labRow = XLAB, 
+#                cexCol = 1, labRow = NULL, srtRow  = NULL,
+#                keysize = 1.2,  key.title ="", srtCol = 90,
+#                #colCol = c(rep("red",6), rep("black",2)))
+#     
+#     legend("topright", cex=0.5,legend = c("male", "female"), 
+#            col = c("black", "red"),lty= 1, lwd = 10  )
+# }
+# 
+# dev.off()
+# 
+# 
+# 
