@@ -113,8 +113,8 @@ pdf("./output/GPL570 probesets COR.pdf")
 heatmap.2(COR, margins = c(8, 8),
           dendrogram="none", trace="none", na.color="grey",
           col=heat.colors(99), cexRow = 0.71, cexCol = 0.71, key = T,
-          keysize = 1.2,  key.title ="", srtCol = 90,
-          main = "correlation among sex related probsets",
+          keysize = 1.1,  key.title ="", srtCol = 90,
+          main = "correlation of sex-related probsets",
           colRow = c(rep("red",7),rep("black",2)),
           colCol = c(rep("red",7),rep("black",2))) 
 
@@ -174,13 +174,13 @@ KMEAN$KMvsGEO <- ifelse( KMEAN$G.check == KMEAN$G.kmean,
                          KMEAN$G.kmean,  "disagree")
 
 #2.SUM
-GPL570.disDS.KMvsGEO <- KMEAN$dataset [KMEAN$KMvsGEO == "disagree"]
-GPL570.disSP.KMvsGEO <- rownames(KMEAN) [KMEAN$KMvsGEO == "disagree"]
+#GPL570.disDS.KMvsGEO <- KMEAN$dataset [KMEAN$KMvsGEO == "disagree"]
+#GPL570.disSP.KMvsGEO <- rownames(KMEAN) [KMEAN$KMvsGEO == "disagree"]
 
-length (unique (GPL570.disDS.KMvsGEO))#22/40
-length(GPL570.disSP.KMvsGEO)  #73/2688
+#length (unique (GPL570.disDS.KMvsGEO))#22/40
+#length(GPL570.disSP.KMvsGEO)  #73/2688
 
-GPL570.DIS.KMvsGEO <- KMEAN[KMEAN$KMvsGEO =="disagree",]
+#GPL570.DIS.KMvsGEO <- KMEAN[KMEAN$KMvsGEO =="disagree",]
 # write.csv(GPL570.DIS.KMvsGEO, "./output/GPL570 disagreed KMvsMEDIAN before remove.csv")
 
 
@@ -192,24 +192,24 @@ KMEAN$medianF_M<- KMEAN$medianFemale - KMEAN$medianMale
 KMEAN$G.medianF_M <- ifelse(KMEAN$medianF_M >= 0,"female","male")
 KMEAN$Kmean.Median <- ifelse(KMEAN$G.medianF_M == KMEAN$G.kmean, KMEAN$G.kmean,"disagree")
 
-# write.csv(KMEAN,"./output/GPL570 all samples before remove KMvsMEDIAN.csv")
-GPL570.DIS.Kmean.Median<- KMEAN[KMEAN$Kmean.Median =="disagree",] #16 (24 for one male gene)
+write.csv(KMEAN,"./output/GPL570 all inforamtion.csv")
+#GPL570.DIS.Kmean.Median<- KMEAN[KMEAN$Kmean.Median =="disagree",] #16 (24 for one male gene)
 # write.csv(GPL570.DIS.Kmean.Median,"./output/GPL570 disagreed samples KMvsMEDIAN.csv")
 
 GPL570.KMEAN.RM <- KMEAN %>% filter(Kmean.Median !="disagree")
-write.csv(GPL570.KMEAN.RM,"./output/GPL570.KMEAN.RM all samples after remove KMvsMEDIAN.csv")
-GPL570.KMEAN.RM$dataset %>% droplevels%>% unique()%>%length
+#write.csv(GPL570.KMEAN.RM,"./output/GPL570.KMEAN.RM all samples after remove KMvsMEDIAN.csv")
+#GPL570.KMEAN.RM$dataset %>% droplevels%>% unique()%>%length
 
 # 3. sum again
 
-GPL570.disDS.KMvsGEO.Sure<- GPL570.KMEAN.RM$dataset [GPL570.KMEAN.RM$KMvsGEO == "disagree"]
-GPL570.disSP.KMvsGEO.Sure<- GPL570.KMEAN.RM$sampleID [GPL570.KMEAN.RM$KMvsGEO == "disagree"]
+#GPL570.disDS.KMvsGEO.Sure<- GPL570.KMEAN.RM$dataset [GPL570.KMEAN.RM$KMvsGEO == "disagree"]
+#GPL570.disSP.KMvsGEO.Sure<- GPL570.KMEAN.RM$sampleID [GPL570.KMEAN.RM$KMvsGEO == "disagree"]
 
-GPL570.DIS.KMvsGEO.Sure <- GPL570.KMEAN.RM[GPL570.KMEAN.RM$KMvsGEO == "disagree",]
-write.csv(GPL570.DIS.KMvsGEO.Sure,"./output/GPL570.DIS.KMvsGEO.Sure disagrees samlpes after the rm .csv")
+#GPL570.DIS.KMvsGEO.Sure <- GPL570.KMEAN.RM[GPL570.KMEAN.RM$KMvsGEO == "disagree",]
+#write.csv(GPL570.DIS.KMvsGEO.Sure,"./output/GPL570.DIS.KMvsGEO.Sure disagrees samlpes after the rm .csv")
 
-length (unique (GPL570.disDS.KMvsGEO.Sure)) #18/40--21/40
-length(GPL570.disSP.KMvsGEO.Sure) #57/2688---64/2672
+#length (unique (GPL570.disDS.KMvsGEO.Sure)) #18/40--21/40
+#length(GPL570.disSP.KMvsGEO.Sure) #57/2688---64/2672
 
 #-------------- OUTPUT   ---------------
 
@@ -230,7 +230,7 @@ PRBPLOT <- with(GPL570.KMEAN.RM,
 
 
 
-pdf("./output/GPL570 highlighted mislabled samples in  EXP striplot for each dataset.pdf")
+pdf("./output/GPL570 gene expression plot for each dataset.pdf")
 
 for(i in datasets){
     tmplot <- PRBPLOT %>% 

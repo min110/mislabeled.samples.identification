@@ -89,7 +89,8 @@ rm(i)
 names(MERGE) <- gsub(" ","",names(MERGE)) 
 
 MERGE.PLOT <- MERGE
-names(MERGE.PLOT) <- sapply(names(MERGE.PLOT), function(x) strsplit(x,"_*")[[1]][1])
+names(MERGE.PLOT) <- sapply(names(MERGE.PLOT), function(x) strsplit(x,"_1")[[1]][1])
+#names(MERGE.PLOT) <- sapply(names(MERGE.PLOT), function(x) strsplit(x,"_2")[[1]][1])
 
 #get corrlation of probsets
 COR <- cor(MERGE.PLOT[,c(grep("XIST",names(MERGE)),
@@ -101,8 +102,8 @@ pdf("./output/GPL96.97 probesets COR.pdf")
 heatmap.2(COR, margins = c(8, 8),
           dendrogram="none", trace="none", na.color="grey",
           col=heat.colors(99), cexRow = 0.71, cexCol = 0.71, key = T,
-          keysize = 1.2,  key.title ="", srtCol = 90,
-          main = "correlation among sex related probsets",
+          keysize = 1.1,  key.title ="", srtCol = 90,
+          main = "correlation of sex-related probsets",
           colRow = c(rep("red",7),rep("black",2)),
           colCol = c(rep("red",7),rep("black",2)))  
 
@@ -216,7 +217,7 @@ PRBPLOT <- with(GPL96.97.KMEAN.RM,
 
 
 
-pdf("./output/GPL96.97 highlight mislable samples in  EXP striplot for each dataset.pdf")
+pdf("./output/GPL96.97 gene expression of each dataset.pdf")
 
 for(i in datasets){
     tmplot <- PRBPLOT %>% 

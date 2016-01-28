@@ -104,7 +104,8 @@ rm(MIN)
 names(MERGE) <- gsub(" ","",names(MERGE)) 
 
 MERGE.PLOT <- MERGE
-names(MERGE.PLOT) <- sapply(names(MERGE.PLOT), function(x) strsplit(x,"_1|_2")[[1]][1])
+names(MERGE.PLOT) <- sapply(names(MERGE.PLOT), function(x) strsplit(x,"_1")[[1]][1])
+#names(MERGE.PLOT) <- sapply(names(MERGE.PLOT), function(x) strsplit(x,"_2")[[1]][1])
 
 #get corrlation of probsets
 COR <- cor(MERGE.PLOT[,c(grep("XIST",names(MERGE)),
@@ -116,8 +117,8 @@ pdf("./output/GPL96 probesets COR.pdf")
 heatmap.2(COR, margins = c(8, 8),
           dendrogram="none", trace="none", na.color="grey",
           col=heat.colors(99), cexRow = 0.71, cexCol = 0.71, key = T,
-          keysize = 1.2,  key.title ="", srtCol = 90,
-          main = "correlation among probsets",
+          keysize = 1.1,  key.title ="", srtCol = 90,
+          main = "correlation of sex-related probsets",
           colRow = c(rep("red",2),rep("black",2)),
           colCol = c(rep("red",2),rep("black",2))) 
 
@@ -195,20 +196,20 @@ KMEAN$G.medianF_M <- ifelse(KMEAN$medianF_M >= 0,"female","male")
 KMEAN$Kmean.Median <- ifelse(KMEAN$G.medianF_M == KMEAN$G.kmean, KMEAN$G.kmean,"disagree")
 
 
-#write.csv(KMEAN,"./output/GPL96 all samples before remove KMvsMEDIAN.csv")
-GPL96.DIS.Kmean.Median<- KMEAN[KMEAN$Kmean.Median =="disagree",] #24
+write.csv(KMEAN,"./output/GPL96 all information.csv")
+#GPL96.DIS.Kmean.Median<- KMEAN[KMEAN$Kmean.Median =="disagree",] #24
 #write.csv(GPL96.DIS.Kmean.Median,"./output/GPL96 disagreed samples KMvsMEDIAN.csv")
 
 GPL96.KMEAN.RM <- KMEAN %>% filter(Kmean.Median !="disagree")
-write.csv(GPL96.KMEAN.RM,"./output/GPL96.KMEAN.RM all samples after remove KMvsMEDIAN.csv")
+#write.csv(GPL96.KMEAN.RM,"./output/GPL96.KMEAN.RM all samples after remove KMvsMEDIAN.csv")
 #GPL96.KMEAN.RM$dataset %>% droplevels%>% unique()%>%length
 
 # 3. sum again
 
-GPL96.disDS.KMvsGEO.Sure<- GPL96.KMEAN.RM$dataset [GPL96.KMEAN.RM$KMvsGEO == "disagree"]
-GPL96.disSP.KMvsGEO.Sure<- GPL96.KMEAN.RM$sampleID [GPL96.KMEAN.RM$KMvsGEO == "disagree"]
-GPL96.DIS.KMvsGEO.Sure <- GPL96.KMEAN.RM[GPL96.KMEAN.RM$KMvsGEO == "disagree",]
-write.csv(GPL96.DIS.KMvsGEO.Sure,"./output/GPL96.DIS.KMvsGEO.Sure disagrees samlpes after the rm .csv")
+# GPL96.disDS.KMvsGEO.Sure<- GPL96.KMEAN.RM$dataset [GPL96.KMEAN.RM$KMvsGEO == "disagree"]
+# GPL96.disSP.KMvsGEO.Sure<- GPL96.KMEAN.RM$sampleID [GPL96.KMEAN.RM$KMvsGEO == "disagree"]
+# GPL96.DIS.KMvsGEO.Sure <- GPL96.KMEAN.RM[GPL96.KMEAN.RM$KMvsGEO == "disagree",]
+# write.csv(GPL96.DIS.KMvsGEO.Sure,"./output/GPL96.DIS.KMvsGEO.Sure disagrees samlpes after the rm .csv")
 
 #length (unique (GPL96.disDS.KMvsGEO.Sure)) #13/26--11/26
 #length(GPL96.disSP.KMvsGEO.Sure) #22/1235--19
@@ -229,7 +230,7 @@ PRBPLOT <- with(GPL96.KMEAN.RM,
                                        KDM5D_206700_s_at_16058, RPS4Y1_201909_at_20847)))
 
 
-pdf("./output/GPL96 highlighted mislabled samples in  EXP striplot for each dataset.pdf")
+pdf("./output/GPL96 gene expression for each dataset.pdf")
 
 for(i in datasets){
     tmplot <- PRBPLOT %>% 
