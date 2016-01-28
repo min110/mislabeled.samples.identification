@@ -89,7 +89,7 @@ rm(i)
 names(MERGE) <- gsub(" ","",names(MERGE)) 
 
 MERGE.PLOT <- MERGE
-names(MERGE.PLOT) <- sapply(names(MERGE.PLOT), function(x) strsplit(x,"_1|_2")[[1]][1])
+names(MERGE.PLOT) <- sapply(names(MERGE.PLOT), function(x) strsplit(x,"_*")[[1]][1])
 
 #get corrlation of probsets
 COR <- cor(MERGE.PLOT[,c(grep("XIST",names(MERGE)),
@@ -179,20 +179,20 @@ KMEAN$medianF_M <- KMEAN$medianFemale - KMEAN$medianMale
 KMEAN$G.medianF_M <- ifelse(KMEAN$medianF_M >= 0,"female","male")
 KMEAN$Kmean.Median <- ifelse(KMEAN$G.medianF_M == KMEAN$G.kmean, KMEAN$G.kmean,"disagree")
 
-#write.csv(KMEAN,"./output/GPL96.97 all samples before remove KMvsMEDIAN.csv")
-GPL96.97.DIS.Kmean.Median<- KMEAN[KMEAN$Kmean.Median =="disagree",] #24
+write.csv(KMEAN,"./output/GPL96.97 all information.csv")
+#GPL96.97.DIS.Kmean.Median<- KMEAN[KMEAN$Kmean.Median =="disagree",] #24
 #write.csv(GPL96.97.DIS.Kmean.Median,"./output/GPL96.97 disagreed samples KMvsMEDIAN.csv")
 
-GPL96.97.KMEAN.RM <- KMEAN %>% filter(Kmean.Median !="disagree")
-write.csv(GPL96.97.KMEAN.RM,"./output/GPL96.97.KMEAN.RM all samples after remove KMvsMEDIAN.csv")
-GPL96.97.KMEAN.RM$dataset %>% droplevels%>% unique()%>%length
+#GPL96.97.KMEAN.RM <- KMEAN %>% filter(Kmean.Median !="disagree")
+#write.csv(GPL96.97.KMEAN.RM,"./output/GPL96.97.KMEAN.RM all samples after remove KMvsMEDIAN.csv")
+#GPL96.97.KMEAN.RM$dataset %>% droplevels%>% unique()%>%length
 
 # 3. sum again
 
-GPL96.97.disDS.KMvsGEO.Sure<- GPL96.97.KMEAN.RM$dataset [GPL96.97.KMEAN.RM$KMvsGEO == "disagree"]
-GPL96.97.disSP.KMvsGEO.Sure<- GPL96.97.KMEAN.RM$sampleID [GPL96.97.KMEAN.RM$KMvsGEO == "disagree"]
-GPL96.97.DIS.KMvsGEO.Sure <- GPL96.97.KMEAN.RM[GPL96.97.KMEAN.RM$KMvsGEO == "disagree",]
-write.csv(GPL96.97.DIS.KMvsGEO.Sure,"./output/GPL96.97.DIS.KMvsGEO.Sure disagrees samlpes after the rm .csv")
+#GPL96.97.disDS.KMvsGEO.Sure<- GPL96.97.KMEAN.RM$dataset [GPL96.97.KMEAN.RM$KMvsGEO == "disagree"]
+#GPL96.97.disSP.KMvsGEO.Sure<- GPL96.97.KMEAN.RM$sampleID [GPL96.97.KMEAN.RM$KMvsGEO == "disagree"]
+#GPL96.97.DIS.KMvsGEO.Sure <- GPL96.97.KMEAN.RM[GPL96.97.KMEAN.RM$KMvsGEO == "disagree",]
+#write.csv(GPL96.97.DIS.KMvsGEO.Sure,"./output/GPL96.97.DIS.KMvsGEO.Sure disagrees samlpes after the rm .csv")
 
 #length (unique (GPL96.97.disDS.KMvsGEO.Sure)) #0
 #length(GPL96.97.disSP.KMvsGEO.Sure) #0
