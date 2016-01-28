@@ -90,7 +90,8 @@ names(MERGE) <- gsub(" ","",names(MERGE))
 
 MERGE.PLOT <- MERGE
 names(MERGE.PLOT) <- sapply(names(MERGE.PLOT), function(x) strsplit(x,"_1")[[1]][1])
-#names(MERGE.PLOT) <- sapply(names(MERGE.PLOT), function(x) strsplit(x,"_2")[[1]][1])
+names(MERGE.PLOT) <- sapply(names(MERGE.PLOT), function(x) strsplit(x,"_20847")[[1]][1])
+names(MERGE.PLOT) <- sapply(names(MERGE.PLOT), function(x) strsplit(x,"_8687")[[1]][1])
 
 #get corrlation of probsets
 COR <- cor(MERGE.PLOT[,c(grep("XIST",names(MERGE)),
@@ -184,7 +185,7 @@ write.csv(KMEAN,"./output/GPL96.97 all information.csv")
 #GPL96.97.DIS.Kmean.Median<- KMEAN[KMEAN$Kmean.Median =="disagree",] #24
 #write.csv(GPL96.97.DIS.Kmean.Median,"./output/GPL96.97 disagreed samples KMvsMEDIAN.csv")
 
-#GPL96.97.KMEAN.RM <- KMEAN %>% filter(Kmean.Median !="disagree")
+GPL96.97.KMEAN.RM <- KMEAN %>% filter(Kmean.Median !="disagree")
 #write.csv(GPL96.97.KMEAN.RM,"./output/GPL96.97.KMEAN.RM all samples after remove KMvsMEDIAN.csv")
 #GPL96.97.KMEAN.RM$dataset %>% droplevels%>% unique()%>%length
 
@@ -202,7 +203,7 @@ write.csv(KMEAN,"./output/GPL96.97 all information.csv")
 
 #striplot for samples------
 
-PRBPLOT <- with(GPL96.97.KMEAN.RM,
+GPL96.97.PRBPLOT <- with(GPL96.97.KMEAN.RM,
                 data.frame(sampleID, dataset, G.check , G.kmean, KMvsGEO, Kmean.Median,
                            probeset = factor(c( rep("XIST",   nrow(GPL96.97.KMEAN.RM)*6),
                                                 rep("KDM5D",  nrow(GPL96.97.KMEAN.RM)  ),
@@ -220,7 +221,7 @@ PRBPLOT <- with(GPL96.97.KMEAN.RM,
 pdf("./output/GPL96.97 gene expression of each dataset.pdf")
 
 for(i in datasets){
-    tmplot <- PRBPLOT %>% 
+    tmplot <- GPL96.97.PRBPLOT %>% 
         mutate(KMplot = G.kmean) %>% 
         arrange(G.check) %>% 
         filter(dataset == i)
@@ -261,7 +262,7 @@ for(i in datasets){
         theme_classic()+
         theme(panel.background = element_rect(colour = "black"),
               axis.text.x = element_text(size = 4)) +
-        labs(title = i, x = "Samples(Predicted Gender)", y = "Expression (log2)") +
+        labs(title = paste0("GPL96.97-",i), x = "Samples(Predicted Gender)", y = "Expression (log2)") +
         scale_colour_manual(labels = c('KDM5D', 'RPS4Y1','XIST'),
                             values = c('black','black','red')) +
         scale_shape_manual(labels = c('KDM5D', 'RPS4Y1','XIST'),
@@ -315,7 +316,9 @@ for(i in datasets){
     
     
     plot(pMATCH)
+    
 }
+
 dev.off()
 
 #---- 

@@ -105,7 +105,8 @@ names(MERGE) <- gsub(" ","",names(MERGE))
 
 MERGE.PLOT <- MERGE
 names(MERGE.PLOT) <- sapply(names(MERGE.PLOT), function(x) strsplit(x,"_1")[[1]][1])
-#names(MERGE.PLOT) <- sapply(names(MERGE.PLOT), function(x) strsplit(x,"_2")[[1]][1])
+names(MERGE.PLOT) <- sapply(names(MERGE.PLOT), function(x) strsplit(x,"_20847")[[1]][1])
+names(MERGE.PLOT) <- sapply(names(MERGE.PLOT), function(x) strsplit(x,"_8687")[[1]][1])
 
 #get corrlation of probsets
 COR <- cor(MERGE.PLOT[,c(grep("XIST",names(MERGE)),
@@ -220,7 +221,7 @@ GPL96.KMEAN.RM <- KMEAN %>% filter(Kmean.Median !="disagree")
 
 
 #striplot for samples------
-PRBPLOT <- with(GPL96.KMEAN.RM,
+GPL96.PRBPLOT <- with(GPL96.KMEAN.RM,
                 data.frame(sampleID, dataset, G.check , G.kmean, KMvsGEO, Kmean.Median,
                            probeset = factor(c( rep("XIST",   nrow(GPL96.KMEAN.RM)*2),
                                                 rep("KDM5D",  nrow(GPL96.KMEAN.RM)  ),
@@ -233,7 +234,7 @@ PRBPLOT <- with(GPL96.KMEAN.RM,
 pdf("./output/GPL96 gene expression for each dataset.pdf")
 
 for(i in datasets){
-    tmplot <- PRBPLOT %>% 
+    tmplot <- GPL96.PRBPLOT %>% 
         mutate(KMplot = G.kmean) %>% 
         arrange(G.check) %>% 
         filter(dataset == i)
@@ -274,7 +275,7 @@ for(i in datasets){
         theme_classic()+
         theme(panel.background = element_rect(colour = "black"),
               axis.text.x = element_text(size = 4)) +
-        labs(title = i, x = "Samples(Predicted Gender)", y = "Expression (log2)") +
+        labs(title = paste0("GPL96-",i), x = "Samples(Predicted Gender)", y = "Expression (log2)") +
         
         scale_colour_manual(labels = c('KDM5D', 'RPS4Y1','XIST'),
                             values = c('black','black','red')) +
@@ -330,6 +331,7 @@ for(i in datasets){
     
     
     plot(pMATCH)
+    
 }
 
 dev.off()

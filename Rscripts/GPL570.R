@@ -217,7 +217,7 @@ GPL570.KMEAN.RM <- KMEAN %>% filter(Kmean.Median !="disagree")
 
 
 #striplot for samples------
-PRBPLOT <- with(GPL570.KMEAN.RM,
+GPL570.PRBPLOT <- with(GPL570.KMEAN.RM,
                 data.frame(sampleID, dataset, G.check , G.kmean, KMvsGEO, Kmean.Median,
                            probeset = factor(c( rep("XIST",   nrow(GPL570.KMEAN.RM)*6),
                                                 rep("KDM5D",  nrow(GPL570.KMEAN.RM)  ),
@@ -229,11 +229,9 @@ PRBPLOT <- with(GPL570.KMEAN.RM,
                                        KDM5D_206700_s_at_137012,RPS4Y1_201909_at_141801)))
 
 
-
 pdf("./output/GPL570 gene expression plot for each dataset.pdf")
-
 for(i in datasets){
-    tmplot <- PRBPLOT %>% 
+    tmplot <- GPL570.PRBPLOT %>% 
         mutate(KMplot = G.kmean) %>% 
         arrange(G.check) %>% 
         filter(dataset == i)
@@ -274,7 +272,7 @@ for(i in datasets){
         theme_classic()+
         theme(panel.background = element_rect(colour = "black"),
               axis.text.x = element_text(size = 4)) +
-        labs(title = i, x = "Samples(Predicted Gender)", y = "Expression (log2)") +
+        labs(title = paste0("GPL570-",i), x = "Samples(Predicted Gender)", y = "Expression (log2)") +
         
         scale_shape_manual(labels = c('KDM5D', 'RPS4Y1','XIST'),
                            values=c(20,1,20)) +
@@ -330,9 +328,10 @@ for(i in datasets){
     
     
     plot(pMATCH)
+    
 }
-dev.off()
 
+dev.off()
 
 
 #---- 
