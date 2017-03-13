@@ -45,11 +45,12 @@ Running these three scripts one by one will do the analysis for each of the plat
 
 **Scripts needed:** 
 
-[script GPL570.R ](https://github.com/min110/mislabeled.samples.identification/blob/master/Rscripts/GPL570.R): this is the only script you need to run
+A script [GPL570.R ](https://github.com/min110/mislabeled.samples.identification/blob/master/Rscripts/GPL570.R): this is the only script you need to run
 
-[script for cunstom functions](https://github.com/min110/mislabeled.samples.identification/blob/master/Rscripts/customFunction.R): you don't need to run this script directly but it will be called by `GPL570.R `
+A script for [cunstom functions](https://github.com/min110/mislabeled.samples.identification/blob/master/Rscripts/customFunction.R): you don't need to run this script directly but it will be called by `GPL570.R`
 
 **Input Data**
+
 [GPL570 expression data and metadata](https://github.com/min110/mislabeled.samples.identification/blob/master/inputDATA/humanGender-GPL570.txt.RData): These Data will be loaded automaticly when you run 'GPL570.R'
 
 **Output files** 
