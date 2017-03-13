@@ -33,15 +33,21 @@
 
 ## How to replicate my analysis
 
-All the Scripts needed for replication could be found in [this repo](https://github.com/min110/mislabeled.samples.identification/tree/master/Rscripts), in which there are three seperated scripts (GPL570.R , GPL96.R, GPL96.97.R )prepared indivadually for the three platforms we included in this project. Running these three scripts one by one will do the relication including loading the custom functions and input data --> doing anaylsis --> saving the output plot into a pdf file in which the genetic gender and annotaion gender are labled with different colors meanwhile the mislabeld samples are highlighted with grey bar. 
+All the Scripts could be found in [this repo](https://github.com/min110/mislabeled.samples.identification/tree/master/Rscripts), in which there are three seperated scripts (GPL570.R , GPL96.R and GPL96.97.R )prepared indivadually for the three platforms we included in this project.
+
+Running these three scripts one by one will do the analysis for each of the platforms seperately including:
+
+1. Loading the custom functions and input data
+2. Data preprocessing and anaylsis (identify genetic gender by clustering gender specific genes and clearify annotation gender)
+3. Saving 3 outputs files including 2 pdf files and a csv file. Details are offered below
 
 **I.E.:for identifying mislabeled samples in platform GPL570** 
 
-**Direct Input:** [all in this repo](https://github.com/min110/mislabeled.samples.identification/tree/master/Rscripts)
+**Direct Input:** 
 
 [script GPL570.R need to be run](https://github.com/min110/mislabeled.samples.identification/blob/master/Rscripts/GPL570.R)
 
-**Indirect Input**(run the previous script will call the following script or load the data automaticlly):
+**Indirect Input**(run "GPL570.R" will call the following script or load the data automaticlly):
 
 [cunstom functions](https://github.com/min110/mislabeled.samples.identification/blob/master/Rscripts/customFunction.R)
 
@@ -49,8 +55,8 @@ All the Scripts needed for replication could be found in [this repo](https://git
 
 **Output** in [this repo](https://github.com/min110/mislabeled.samples.identification/tree/master/output)
 
-[1. gene expression plot in which mislabeld samples are highlighted with grey bar](https://github.com/min110/mislabeled.samples.identification/blob/master/output/GPL570%20gene%20expression%20plot%20for%20each%20dataset.pdf)
+[1. a correlation heatmap of probesets in GPL570 to identify outlier probesets](https://github.com/min110/mislabeled.samples.identification/blob/master/output/GPL570%20probesets%20COR.pdf)
 
-[2. a correlation heatmap of probesets in this platform to identify outlier probesets ](https://github.com/min110/mislabeled.samples.identification/blob/master/output/GPL570%20probesets%20COR.pdf)
+[2. a table after analysis including genetic gender and annotation gender for each sample](https://github.com/min110/mislabeled.samples.identification/blob/master/output/GPL570%20all%20inforamtion.csv)
 
-[3. a table after analysis including genetic gender and annotation gender for each sample](https://github.com/min110/mislabeled.samples.identification/blob/master/output/GPL570%20all%20inforamtion.csv)
+[3. gene expression plot in which using genetic gender as x-label meanwhile using annotation gender as headers, besides all mislabeld samples are highlighted with grey bar](https://github.com/min110/mislabeled.samples.identification/blob/master/output/GPL570%20gene%20expression%20plot%20for%20each%20dataset.pdf)
