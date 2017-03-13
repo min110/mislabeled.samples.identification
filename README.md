@@ -43,20 +43,19 @@ Running these three scripts one by one will do the analysis for each of the plat
 
 **I.E.:for identifying mislabeled samples in platform GPL570** 
 
-**Direct Input:** 
+**Scripts needed:** 
 
-[script GPL570.R need to be run](https://github.com/min110/mislabeled.samples.identification/blob/master/Rscripts/GPL570.R)
+[script GPL570.R ](https://github.com/min110/mislabeled.samples.identification/blob/master/Rscripts/GPL570.R): this is the only script you need to run
 
-**Indirect Input**(run "GPL570.R" will call the following script or load the data automaticlly):
+[script for cunstom functions](https://github.com/min110/mislabeled.samples.identification/blob/master/Rscripts/customFunction.R): you don't need to run this script directly but it will be called by `GPL570.R `
 
-[cunstom functions](https://github.com/min110/mislabeled.samples.identification/blob/master/Rscripts/customFunction.R)
+**Input Data**
+[GPL570 expression data and metadata](https://github.com/min110/mislabeled.samples.identification/blob/master/inputDATA/humanGender-GPL570.txt.RData): These Data will be loaded automaticly when you run 'GPL570.R'
 
-[input data](https://github.com/min110/mislabeled.samples.identification/blob/master/inputDATA/humanGender-GPL570.txt.RData)
+**Output files** 
 
-**Output** in [this repo](https://github.com/min110/mislabeled.samples.identification/tree/master/output)
+[1. a pdf file](https://github.com/min110/mislabeled.samples.identification/blob/master/output/GPL570%20probesets%20COR.pdf) : a correlation heatmap of probesets in GPL570 to identify outlier probesets 
 
-[1. a pdf](https://github.com/min110/mislabeled.samples.identification/blob/master/output/GPL570%20probesets%20COR.pdf) : a correlation heatmap of probesets in GPL570 to identify outlier probesets 
+[2. a csv file](https://github.com/min110/mislabeled.samples.identification/blob/master/output/GPL570%20all%20inforamtion.csv): a table after analysis offering genetic gender and annotation gender for each sample
 
-[2. a csv file](https://github.com/min110/mislabeled.samples.identification/blob/master/output/GPL570%20all%20inforamtion.csv): a table after analysis including genetic gender and annotation gender for each sample
-
-[3. a pdf file](https://github.com/min110/mislabeled.samples.identification/blob/master/output/GPL570%20gene%20expression%20plot%20for%20each%20dataset.pdf):gene expression plot in which using genetic gender as x-label meanwhile using annotation gender as headers, besides all mislabeld samples are highlighted with grey bar
+[3. another pdf file](https://github.com/min110/mislabeled.samples.identification/blob/master/output/GPL570%20gene%20expression%20plot%20for%20each%20dataset.pdf): visualizing the results by gene expression plots in which genetic gender is clarified as x-label meanwhile annotation gender could be found in headers, besides all mislabeld samples are highlighted with grey bar
