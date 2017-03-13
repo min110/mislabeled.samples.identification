@@ -33,13 +33,13 @@
 
 ## How to replicate my analysis
 
-All the Scripts could be found in [this repo](https://github.com/min110/mislabeled.samples.identification/tree/master/Rscripts), in which there are three seperated scripts (GPL570.R , GPL96.R and GPL96.97.R )prepared indivadually for the three platforms we included in this project.
+All the Scripts could be found in [this repo](https://github.com/min110/mislabeled.samples.identification/tree/master/Rscripts), in which three seperated scripts (GPL570.R , GPL96.R and GPL96.97.R ) are prepared for the three platforms we included in this project.
 
-Running these three scripts one by one will do the analysis for each of the platforms seperately including:
+Running these three scripts one by one will do the analysis for each of the platforms seperately. The whole process includes:
 
-1. Loading the custom functions and input data
+1. Loading custom functions and input data
 2. Data preprocessing and anaylsis (identify genetic gender by clustering gender specific genes and clearify annotation gender)
-3. Saving 3 outputs files including 2 pdf files and a csv file. Details are offered below
+3. Saving 3 outputs files including 2 pdf files and 1 csv file. Details are offered below in example:
 
 **I.E.:for identifying mislabeled samples in platform GPL570** 
 
